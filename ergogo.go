@@ -39,6 +39,11 @@ func main() {
 	app.Name = AppName
 	app.Usage = "Interactively manage Ergodox firmware"
 	app.Version = AppVer
+	app.Commands = []cli.Command{
+		cmd.CmdRun,
+		cmd.Setup,
+		cmd.Reset,
+	}
 	app.Flags = append(app.Flags, []cli.Flag{}...)
 	app.Run(os.Args)
 }
