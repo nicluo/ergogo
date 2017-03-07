@@ -31,9 +31,33 @@ func startupDfu() {
 	}
 }
 
+func prototypeFlashProcedure() {
+	df, _ := dfu.NewDfuFlash("/Users/nicluo/Downloads/TestFirmware/left_kiibohd.dfu.bin", "/Users/nicluo/Downloads/TestFirmware/right_kiibohd.dfu.bin")
+	for {
+		dfuAvailable, _ := dfu.Scan()
+		log.Printf("Scanning Left DFU: %t\n", dfuAvailable)
+		if dfuAvailable {
+			break
+		}
+	}
+	log.Println("Flashing Left DFU...")
+	df.FlashLeft()
+
+	for {
+		dfuAvailable, _ := dfu.Scan()
+		log.Printf("Scanning Right DFU: %t\n", dfuAvailable)
+		if dfuAvailable {
+			break
+		}
+	}
+	log.Println("Flashing Right DFU...")
+	df.FlashRight()
+}
+
 func main() {
 	startupFirmwareWatcher()
 	startupDfu()
+	prototypeFlashProcedure()
 
 	app := cli.NewApp()
 	app.Name = AppName
